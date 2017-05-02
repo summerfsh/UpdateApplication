@@ -148,11 +148,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void requestWriterSD() {
         // 需要验证的权限
-        int hsaCameraPermission = this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int hsaCameraPermission = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            hsaCameraPermission = this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
         if (hsaCameraPermission != PackageManager.PERMISSION_GRANTED) {
             // 弹窗询问 ，让用户自己判断
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_WRITE_EXTERNAL_STORAGE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        REQUEST_WRITE_EXTERNAL_STORAGE);
+            }
             return;
         } else {
             iFLYTEKUpdate();
